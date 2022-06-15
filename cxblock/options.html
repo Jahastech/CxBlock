@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="stylesheet" href="min/metro-bootstrap.min.css">
+<link rel="stylesheet" href="min/iconFont.min.css">
+<script src="min/jquery.min.js"></script>
+<script src="min/metro.min.js"></script>
+<script src="options.js"></script>
+</head>
+<body class="metro" style="display: none;">
+
+<div id="doctop">
+
+	<div class="padding10">
+		<h2 id="_default"><i class="icon-upload on-left fg-cyan"></i>Server Connection</h2>
+
+		<div class="padding20" style="border: 1px #ccc solid; background-color: #fdfdfd;">
+				<fieldset>
+					If you want to do remote filtering by CxBlock, you need to set Login Token.
+					</p>
+
+					<label>Server Address</label>
+					<div class="input-control text size4" data-role="input-control">
+						<input id="server" type="text" placeholder="IP address of your filtering server">
+					</div>
+
+					<label>Login Token</label>
+					<div class="input-control text size4" data-role="input-control">
+						<input id="token" type="text" placeholder="Login token" maxlength="8"/>
+					</div>
+
+					<div>
+					<button id="btn_test_conn" class="default">Test</button>
+					<button id="btn_save_conn" class="default">Save</button>
+					</div>
+				</fieldset>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "CxBlock",
+  "version": "1.6",
+  "short_name": "CxBlock",
+  "author": "Jahastech",
+  "description": "Remote filtering agent for NxFilter.",
+  "icons": {"16": "16-nx.png", "48": "48-nx.png", "128": "128-nx.png"},
+  "action": {
+    "default_icon": "16-nx.png"
+  },
+  "background": {
+    "service_worker": "service_worker.js"
+   },
+  "options_page": "options.html",
+  "permissions": [
+    "tabs",
+    "storage",
+    "webNavigation",
+    "identity",
+    "identity.email"
+  ],
+  "host_permissions": [
+    "*://*/*"
+  ]
+}
