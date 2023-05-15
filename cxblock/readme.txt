@@ -1,11 +1,19 @@
 *****************************************************************
-CxBlock v1.6
+CxBlock v1.8
   Author : Jinhee Lee
   Homepage : http://www.nxfilter.org
   Contact : support@nxfilter.org
 *****************************************************************
 
 CxBlock is a property of Jahastech.
+
+
+2023/04/27, v1.8
+- Deals with '/DROP' protocol.
+
+
+2022/08/12, v1.7
+- redip.php -> redip.jsp.
 
 
 2022/05/30, v1.6

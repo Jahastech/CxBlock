@@ -226,19 +226,26 @@ function hx_lookup(domain){
 	.then(function(text){
 		log.debug("hx_lookup, domain = " + domain + ", text = " + text);
 
-		if(text == "/BLOCK"){
-			add_domain_cache(domain, true);
+		if(text == "/DROP"){
+			add_domain_cache(domain, false, true);
+
+			if(!nxp.log_only){
+				redi_drop_url();
+			}
+		}
+		else if(text == "/BLOCK"){
+			add_domain_cache(domain, true, false);
 
 			if(!nxp.log_only){
 				redi_block_url(domain);
 			}
 		}
 		else{
-			add_domain_cache(domain, false);
+			add_domain_cache(domain, false, false);
 		}
 	})
-	.catch(function() {
-		log.error("hx_lookup, Connection error!");
+	.catch(ex => {
+		log.error("hx_lookup, " + ex.message);
 	});
 }
 
@@ -256,10 +263,11 @@ function unix_timestamp(){
 }
 
 //-----------------------------------------------
-function add_domain_cache(domain, block_flag){
+function add_domain_cache(domain, block_flag, drop_flag){
 	var dd = {};
 	dd.domain = domain;
 	dd.block_flag = block_flag;
+	dd.drop_flag = drop_flag;
 	dd.timestamp = unix_timestamp();
 
 	g_domain_cache[domain] = dd;
@@ -287,7 +295,15 @@ function is_blocked_domain(domain){
 	}
 
 	log.debug("Found cache for " + domain + ", " + dd.block_flag);
-	return dd.block_flag;
+
+	if(dd.block_flag){
+		return -1;
+	}
+	else if(dd.drop_flag){
+		return -2;
+	}
+
+	return 0;
 }
 
 //-----------------------------------------------
@@ -318,6 +334,11 @@ function redi_block_url(domain){
 	if(str_is_not_empty(block_url)){
 		redi_new_url(block_url + "?domain=" + domain);
 	}
+}
+
+//-----------------------------------------------
+function redi_drop_url(){
+	redi_new_url("http://127.0.0.1");
 }
 
 //-----------------------------------------------
@@ -803,12 +824,17 @@ chrome.webNavigation.onBeforeNavigate.addListener(function(details){
 		return;
 	}
 
-	if(is_blocked_domain(host)){
+	var res_code = is_blocked_domain(host);
+	if(res_code == -1){
 		log.info("onBeforeNavigate, Blocked! - " + host);
 
 		if(!nxp.log_only){
 			redi_block_url(details.url);
 		}
+	}
+	else if(res_code == -2){
+		log.info("onBeforeNavigate, Dropped! - " + host);
+		redi_drop_url();
 	}
 });
 
